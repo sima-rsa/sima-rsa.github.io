@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simanye Siximba — Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F1620;
+    --surface:#16202C;
+    --surface-2:#1C2834;
+    --line:#283544;
+    --gold:#D4A857;
+    --teal:#39C0B3;
+    --text:#E8E6E0;
+    --muted:#8B95A1;
+    --radius:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  .mono{font-family:'JetBrains Mono',monospace;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--gold);color:#0F1620;}
+
+  /* background circuit texture */
+  body::before{
+    content:'';
+    position:fixed;inset:0;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(212,168,87,0.06), transparent 40%),
+      radial-gradient(circle at 85% 75%, rgba(57,192,179,0.07), transparent 40%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;position:relative;z-index:1;}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(15,22,32,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .logo{font-weight:700;font-size:1.05rem;letter-spacing:0.02em;}
+  .logo span{color:var(--gold);}
+  .navlinks{display:flex;gap:28px;font-size:0.92rem;color:var(--muted);}
+  .navlinks a{transition:color .2s;}
+  .navlinks a:hover{color:var(--teal);}
+
+  /* HERO */
+  header.hero{padding:96px 0 80px;position:relative;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--teal);
+    font-size:0.82rem;
+    letter-spacing:0.06em;
+    display:flex;align-items:center;gap:10px;margin-bottom:22px;
+  }
+  .eyebrow::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(57,192,179,0.15);}
+  .hero h1{
+    font-size:clamp(2.4rem,6vw,4rem);
+    font-weight:700;
+    line-height:1.05;
+    letter-spacing:-0.01em;
+    max-width:760px;
+  }
+  .hero h1 .accent{color:var(--gold);}
+  .hero p.lede{
+    margin-top:24px;
+    max-width:620px;
+    color:var(--muted);
+    font-size:1.08rem;
+  }
+  .hero-cta{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap;}
+  .btn{
+    padding:12px 22px;border-radius:8px;font-size:0.92rem;font-weight:500;
+    display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
+    transition:all .2s;
+  }
+  .btn-primary{background:var(--gold);color:#0F1620;border-color:var(--gold);}
+  .btn-primary:hover{background:#e3bb6f;transform:translateY(-2px);}
+  .btn-ghost:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-2px);}
+
+  .hero-tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:44px;}
+  .tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.78rem;
+    color:var(--teal);
+    border:1px solid rgba(57,192,179,0.35);
+    background:rgba(57,192,179,0.06);
+    padding:6px 12px;border-radius:6px;
+  }
+
+  /* SECTION HEADERS */
+  section{padding:80px 0;border-top:1px solid var(--line);}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:48px;}
+  .sec-num{font-family:'JetBrains Mono',monospace;color:var(--gold);font-size:0.85rem;}
+  .sec-head h2{font-size:1.9rem;font-weight:600;}
+  .sec-sub{color:var(--muted);max-width:560px;margin-top:-32px;margin-bottom:44px;font-size:0.96rem;}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;}
+  .about-grid p{color:var(--text);margin-bottom:16px;}
+  .stat-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;margin-bottom:14px;
+  }
+  .stat-card .num{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;color:var(--gold);}
+  .stat-card .label{color:var(--muted);font-size:0.85rem;margin-top:4px;}
+
+  /* SKILLS */
+  .skill-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;}
+  .skill-group h3{font-size:0.95rem;color:var(--teal);margin-bottom:14px;font-family:'JetBrains Mono',monospace;font-weight:500;}
+  .skill-group ul{list-style:none;}
+  .skill-group li{
+    color:var(--text);font-size:0.93rem;padding:7px 0;border-bottom:1px dashed var(--line);
+  }
+  .skill-group li:last-child{border-bottom:none;}
+
+  /* TIMELINE */
+  .timeline{position:relative;padding-left:28px;border-left:2px solid var(--line);}
+  .tl-item{position:relative;margin-bottom:38px;}
+  .tl-item::before{
+    content:'';position:absolute;left:-35px;top:4px;width:12px;height:12px;border-radius:50%;
+    background:var(--bg);border:2px solid var(--gold);
+  }
+  .tl-item.highlight::before{background:var(--gold);box-shadow:0 0 0 5px rgba(212,168,87,0.18);}
+  .tl-date{font-family:'JetBrains Mono',monospace;color:var(--gold);font-size:0.8rem;margin-bottom:6px;}
+  .tl-item h3{font-size:1.08rem;font-weight:600;margin-bottom:6px;}
+  .tl-item .org{color:var(--teal);font-size:0.88rem;margin-bottom:8px;}
+  .tl-item p.desc{color:var(--muted);font-size:0.92rem;max-width:640px;}
+  .win-badge{
+    display:inline-flex;align-items:center;gap:6px;margin-top:10px;
+    font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--gold);
+    border:1px solid rgba(212,168,87,0.35);background:rgba(212,168,87,0.07);
+    padding:5px 10px;border-radius:6px;
+  }
+
+  /* EXPERIENCE / HACKATHON CARDS */
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px;transition:transform .25s,border-color .25s;
+  }
+  .card:hover{transform:translateY(-4px);border-color:var(--teal);}
+  .card .card-tag{
+    font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--teal);
+    text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;display:block;
+  }
+  .card h3{font-size:1.05rem;font-weight:600;margin-bottom:8px;}
+  .card p{color:var(--muted);font-size:0.88rem;}
+
+  /* CERTS */
+  .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;}
+  .cert-card{
+    background:linear-gradient(160deg,var(--surface) 0%,var(--surface-2) 100%);
+    border:1px solid var(--line);border-radius:var(--radius);padding:22px;
+    position:relative;overflow:hidden;
+  }
+  .cert-card::after{
+    content:'';position:absolute;top:-30px;right:-30px;width:90px;height:90px;border-radius:50%;
+    background:radial-gradient(circle,rgba(212,168,87,0.18),transparent 70%);
+  }
+  .cert-card .cert-icon{
+    width:36px;height:36px;border-radius:50%;border:2px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;margin-bottom:14px;
+    font-family:'JetBrains Mono',monospace;color:var(--gold);font-size:0.8rem;font-weight:600;
+  }
+  .cert-card h3{font-size:0.98rem;font-weight:600;margin-bottom:6px;}
+  .cert-card .issuer{color:var(--muted);font-size:0.82rem;}
+  .cert-card .date{
+    font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--teal);margin-top:10px;display:block;
+  }
+  .cert-card .cert-img{
+    width:100%;border-radius:8px;margin-top:14px;border:1px solid var(--line);display:block;
+  }
+
+  /* CONTACT */
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+  .contact-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;display:flex;flex-direction:column;gap:6px;transition:border-color .2s,transform .2s;
+  }
+  .contact-card:hover{border-color:var(--gold);transform:translateY(-3px);}
+  .contact-card .clabel{font-family:'JetBrains Mono',monospace;color:var(--gold);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;}
+  .contact-card .cval{font-size:0.98rem;word-break:break-word;}
+
+  footer{padding:36px 0;text-align:center;color:var(--muted);font-size:0.82rem;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;}
+
+  @media (max-width:760px){
+    .about-grid{grid-template-columns:1fr;}
+    .navlinks{display:none;}
+  }
+
+  [data-reveal]{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+  [data-reveal].in{opacity:1;transform:translateY(0);}
+
+  /* ambient animated glow */
+  body::after{
+    content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(600px circle at var(--mx,50%) var(--my,30%), rgba(212,168,87,0.05), transparent 60%);
+    transition:background .3s ease;
+  }
+
+  /* hero portrait */
+  .hero-flex{display:flex;align-items:center;gap:48px;flex-wrap:wrap;}
+  .hero-portrait{
+    flex-shrink:0;width:180px;height:180px;border-radius:50%;
+    overflow:hidden;border:3px solid var(--gold);
+    box-shadow:0 0 0 8px rgba(212,168,87,0.08);
+    animation:floatY 5s ease-in-out infinite;
+  }
+  .hero-portrait img{width:100%;height:100%;object-fit:cover;}
+  @keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  .hero-text{flex:1;min-width:280px;}
+
+  /* typing caret */
+  .caret{display:inline-block;width:3px;height:1em;background:var(--teal);margin-left:4px;vertical-align:-2px;animation:blink 1s steps(2) infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  /* card with image */
+  .card.with-img{padding:0;overflow:hidden;}
+  .card.with-img .card-img{width:100%;height:220px;overflow:hidden;}
+  .card.with-img .card-img img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;transition:transform .5s ease;filter:saturate(1.05);}
+  .card.with-img:hover .card-img img{transform:scale(1.06);}
+  .card.with-img .card-body{padding:20px;}
+  .card.with-img .card-img.tall{height:280px;}
+  .card.with-img .card-img.full{object-fit:contain;background:#fff;}
+
+  /* staggered reveal */
+  [data-reveal][data-delay="1"]{transition-delay:.08s;}
+  [data-reveal][data-delay="2"]{transition-delay:.16s;}
+  [data-reveal][data-delay="3"]{transition-delay:.24s;}
+  [data-reveal][data-delay="4"]{transition-delay:.32s;}
+
+  /* scroll progress bar */
+  #progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--teal));z-index:100;width:0%;}
+
+  /* tag marquee */
+  .marquee-wrap{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;background:var(--surface);}
+  .marquee{display:flex;gap:14px;white-space:nowrap;animation:scrollX 22s linear infinite;}
+  .marquee span{font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--muted);}
+  .marquee span b{color:var(--gold);}
+  @keyframes scrollX{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  @media (prefers-reduced-motion:reduce){
+    .hero-portrait{animation:none;}
+    .marquee{animation:none;}
+    .caret{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">S<span>.</span>Siximba</div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#hackathons">Hackathons</a>
+      <a href="#certificates">Certificates</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-flex">
+    <div class="hero-portrait"><img src="images/hero.png" alt="Simanye Siximba speaking at the Youthquake conference"></div>
+    <div class="hero-text">
+      <div class="eyebrow">FINAL-YEAR BCOM INFORMATION SYSTEMS · UNIVERSITY OF FORT HARE</div>
+      <h1>Building software that <span class="accent">solves real problems</span><span class="caret"></span></h1>
+      <p class="lede">I'm Simanye Siximba, a software engineer in training based in East London, South Africa. I build full-stack applications with C#, JavaScript, and React, and I've spent the last two years showing up at every hackathon, workshop, and pitch event I could find.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="mailto:siximbasimanye244@gmail.com">Get in touch</a>
+        <a class="btn btn-ghost" href="https://github.com/sima-rsa" target="_blank">GitHub ↗</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/simanye-siximba154542370" target="_blank">LinkedIn ↗</a>
+      </div>
+      <div class="hero-tags">
+        <span class="tag">member — winning team, UFH Innovation Challenge 2026</span>
+        <span class="tag">front-end developer</span>
+        <span class="tag">president, Geekulcha society</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span><b>C#</b> · JavaScript · React · SQL Server · PostgreSQL · REST APIs · SDLC · Git/GitHub · <b>Full Stack Dev</b> · Debugging · Software Testing · <b>C#</b> · JavaScript · React · SQL Server · PostgreSQL · REST APIs · SDLC · Git/GitHub · <b>Full Stack Dev</b> · Debugging · Software Testing</span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>About</h2></div>
+    <div class="about-grid">
+      <div data-reveal>
+        <p>I'm a final-year Bachelor of Commerce in Information Systems student at the University of Fort Hare, with practical experience in software development, systems analysis, and technology-driven problem solving.</p>
+        <p>I build and maintain applications using C#, JavaScript, React, SQL Server, and PostgreSQL, with a strong understanding of the Software Development Life Cycle. Outside of coursework, I've taken on leadership roles, from representing first-year students on Faculty Council to leading the Geekulcha Student Society and serving as Public Relations Officer for the Black Management Forum.</p>
+        <p>I'm passionate about building digital solutions that matter, and I'm looking to start my career as a software engineer contributing to products with real impact.</p>
+      </div>
+      <div data-reveal>
+        <div class="stat-card"><div class="num">R150,000</div><div class="label">Member of winning team — UFH Innovation Challenge, May 2026 (led by Lisakhanya Luxwebo)</div></div>
+        <div class="stat-card"><div class="num">9</div><div class="label">Technical & business certificates earned</div></div>
+        <div class="stat-card"><div class="num">7+</div><div class="label">Hackathons, bootcamps & innovation challenges attended</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Skills</h2></div>
+    <div class="skill-groups">
+      <div class="skill-group">
+        <h3>// languages</h3>
+        <ul><li>C#</li><li>JavaScript</li><li>HTML5</li><li>CSS3</li></ul>
+      </div>
+      <div class="skill-group">
+        <h3>// frameworks & data</h3>
+        <ul><li>React</li><li>SQL Server</li><li>PostgreSQL</li><li>REST APIs</li></ul>
+      </div>
+      <div class="skill-group">
+        <h3>// tools & practice</h3>
+        <ul><li>Git / GitHub / GitLab</li><li>Visual Studio / VS Code</li><li>SDLC</li><li>Software testing & debugging</li></ul>
+      </div>
+      <div class="skill-group">
+        <h3>// working with people</h3>
+        <ul><li>Problem solving</li><li>Analytical thinking</li><li>Teamwork</li><li>Communication & adaptability</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Experience</h2></div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-date">JUN 2024 — NOV 2024</div>
+        <h3>Tutor for EMS (Accounting)</h3>
+        <div class="org">Uviwe High School · Smart Choice Tutoring Program</div>
+        <p class="desc">Provided customised tutoring sessions for Grade 9 students, focused on essential accounting principles including financial statements.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">FEB 2025 — JUN 2025</div>
+        <h3>Computer Literacy Tutor</h3>
+        <div class="org">Smart Choice</div>
+        <p class="desc">Delivered personalised computer literacy training covering word processing, spreadsheets, and internet use, adapting lessons to different learning styles and tracking progress through assessment.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2025</div>
+        <h3>President</h3>
+        <div class="org">Geekulcha Student Society</div>
+        <p class="desc">Led the student society's strategic planning and execution of initiatives to promote student engagement, representing the society in interactions with external organisations.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2025</div>
+        <h3>First-Year Students Representative</h3>
+        <div class="org">Faculty Council, University of Fort Hare</div>
+        <p class="desc">Acted as liaison between first-year students and faculty, communicating concerns and collaborating on initiatives to improve the first-year experience.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2025</div>
+        <h3>Public Relations Officer</h3>
+        <div class="org">Black Management Forum</div>
+        <p class="desc">Developed and executed strategic communication plans to enhance organisational reputation and stakeholder engagement.</p>
+      </div>
+
+      <div class="tl-item highlight" data-reveal>
+        <div class="tl-date">MAY 2026</div>
+        <h3>Front-End Developer, Winning Team</h3>
+        <div class="org">University of Fort Hare Innovation Challenge</div>
+        <p class="desc">Contributed as front-end developer on a winning team led by Lisakhanya Luxwebo, alongside Likhona Gatya (Junior AI Specialist) and Zawana Mzoli (Software Developer).</p>
+        <span class="win-badge">Team won R150,000 — 7 May 2026</span>
+        <div style="margin-top:14px;border-radius:10px;overflow:hidden;max-width:320px;">
+          <img src="images/win.png" alt="Team holding the R150,000 cheque at the UFH Innovation Challenge" style="width:100%;display:block;">
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">MAR 2026 — NOV 2026</div>
+        <h3>LWAP Facilitator</h3>
+        <div class="org">University of Fort Hare</div>
+        <p class="desc">Facilitated LWAP sessions by reviewing assignments, providing feedback, and supporting students to improve understanding and performance.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">APR 2026 — JUN 2026</div>
+        <h3>Software Development Intern</h3>
+        <div class="org">Vulanova</div>
+        <p class="desc">Developed and maintained software applications across the SDLC. Gained hands-on experience in debugging, software testing, REST API integration, and database management using PostgreSQL and pgAdmin.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2026 — 1 MONTH</div>
+        <h3>Software Developer Intern</h3>
+        <div class="org">Maya</div>
+        <p class="desc">Assisted in software development by collaborating with the development team on application development, debugging, testing, and implementing software solutions while adapting to project requirements in a dynamic environment.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Projects</h2></div>
+    <p class="sec-sub">Things I've built, from a personal practice site to a full-stack final school project.</p>
+    <div class="card-grid">
+
+      <div class="card with-img" data-reveal data-delay="1">
+        <div class="card-img tall full"><img src="images/proj-lavish.png" alt="Lavish Laundry website homepage"></div>
+        <div class="card-body">
+          <span class="card-tag">Personal Project · 2nd Year</span>
+          <h3>Lavish Laundry</h3>
+          <p>A premium laundry service landing page built for East London, with a booking call-to-action, service overview, and a clean hero section. Built solo to practice front-end design and deployment.</p>
+          <a class="btn btn-ghost" style="margin-top:14px;font-size:0.82rem;padding:8px 16px;" href="https://lavish-laundry-manatee-46d682.netlify.app" target="_blank">Visit site ↗</a>
+        </div>
+      </div>
+
+      <div class="card with-img" data-reveal data-delay="2">
+        <div class="card-img"><img src="images/proj-medidelivery.png" alt="MediDelivery platform homepage"></div>
+        <div class="card-body">
+          <span class="card-tag">Final School Project · Full Stack Developer</span>
+          <h3>MediDelivery</h3>
+          <p>A secure medication request & delivery platform connecting patients with verified pharmacies, with prescription requests, real-time delivery tracking, and a 4-step request → verify → process → deliver flow.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="hackathons">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Hackathons & Events</h2></div>
+    <p class="sec-sub">Hands-on programs, competitions, and communities where I built skills, collaborated, and showed up.</p>
+    <div class="card-grid">
+      <div class="card with-img" data-reveal data-delay="1">
+        <div class="card-img"><img src="images/hackathon.png" alt="Human Rights Hackathon"></div>
+        <div class="card-body"><span class="card-tag">Hackathon</span><h3>Human Rights Hackathon</h3><p>Built solutions addressing human rights challenges in a collaborative team setting.</p></div>
+      </div>
+      <div class="card with-img" data-reveal data-delay="2">
+        <div class="card-img"><img src="images/fintech.png" alt="UCT Cortex Hub Fintech Summer Bootcamp"></div>
+        <div class="card-body"><span class="card-tag">Bootcamp</span><h3>UCT Cortex Hub Fintech Summer Bootcamp</h3><p>Intensive fintech-focused bootcamp at the University of Cape Town's Cortex Hub.</p></div>
+      </div>
+      <div class="card with-img" data-reveal data-delay="3">
+        <div class="card-img"><img src="images/pitchbattle.png" alt="StartUpGrind All-Star Pitch Battle"></div>
+        <div class="card-body"><span class="card-tag">Pitch Battle</span><h3>StartUpGrind All-Star Pitch Battle</h3><p>Attended as a guest at the East London chapter's 2025 pitch battle event.</p></div>
+      </div>
+      <div class="card with-img" data-reveal data-delay="4">
+        <div class="card-img"><img src="images/workshop.png" alt="Business Model Canvas Workshop with Kore Business Solutions"></div>
+        <div class="card-body"><span class="card-tag">Workshop</span><h3>Business Model Canvas Workshop</h3><p>Kore Business Solutions, workshop on developing business models using the nine key elements of the Business Model Canvas, and delivering a perfect pitch.</p></div>
+      </div>
+      <div class="card with-img" data-reveal data-delay="1">
+        <div class="card-img"><img src="images/expo.png" alt="St John's College Career Expo in Mthatha"></div>
+        <div class="card-body"><span class="card-tag">Outreach</span><h3>St John's College Career Expo, Mthatha</h3><p>Spoke to learners about careers in technology and software development.</p></div>
+      </div>
+      <div class="card with-img" data-reveal data-delay="2">
+        <div class="card-img"><img src="images/youthquake.png" alt="Speaking at the Youthquake conference"></div>
+        <div class="card-body"><span class="card-tag">Conference</span><h3>Youthquake × Geekulcha Varsity Conference</h3><p>Invited speaker/panelist representing the Geekulcha Society at the varsity youth conference.</p></div>
+      </div>
+      <div class="card with-img" data-reveal data-delay="3">
+        <div class="card-img"><img src="images/writing.png" alt="Working at the IDZ 2025 Innovation Competition"></div>
+        <div class="card-body"><span class="card-tag">Competition</span><h3>IDZ 2025 Innovation Competition</h3><p>Participated in the East London IDZ innovation and entrepreneurship competition.</p></div>
+      </div>
+      <div class="card with-img" data-reveal data-delay="4">
+        <div class="card-img"><img src="images/team.png" alt="UFH Innovation Challenge winning team members"></div>
+        <div class="card-body"><span class="card-tag">Innovation Challenge</span><h3>UFH Innovation Challenge, Winning Team</h3><p>Contributed as front-end developer on the winning team, led by Lisakhanya Luxwebo. Team awarded R150,000 in funding.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certificates">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Certificates</h2></div>
+    <div class="cert-grid">
+
+      <div class="cert-card" data-reveal data-delay="1">
+        <div class="cert-icon">FS</div>
+        <h3>Full Stack Developer Certificate</h3>
+        <div class="issuer">FNB App Academy 2025 · IT Varsity · 32 credits</div>
+        <span class="date">18 JUL 2025</span>
+        <img class="cert-img" src="images/cert-fnb.png" alt="FNB App Academy Full Stack Developer Certificate">
+      </div>
+
+      <div class="cert-card" data-reveal data-delay="2">
+        <div class="cert-icon">PY</div>
+        <h3>Python 101 for Data Science</h3>
+        <div class="issuer">IBM SkillsBuild</div>
+        <span class="date">20 AUG 2025</span>
+        <img class="cert-img" src="images/cert-python101.png" alt="IBM SkillsBuild Python 101 for Data Science certificate">
+      </div>
+
+      <div class="cert-card" data-reveal data-delay="3">
+        <div class="cert-icon">DA</div>
+        <h3>Data Analysis with Python</h3>
+        <div class="issuer">IBM SkillsBuild</div>
+        <span class="date">20 AUG 2025</span>
+        <img class="cert-img" src="images/cert-dataanalysis.png" alt="IBM SkillsBuild Data Analysis with Python certificate">
+      </div>
+
+      <div class="cert-card" data-reveal data-delay="4">
+        <div class="cert-icon">CS</div>
+        <h3>Introduction to Cybersecurity</h3>
+        <div class="issuer">Cisco Networking Academy</div>
+        <span class="date">18 JUL 2025</span>
+        <img class="cert-img" src="images/cert-cisco.png" alt="Cisco Networking Academy Introduction to Cybersecurity certificate">
+      </div>
+
+      <div class="cert-card" data-reveal data-delay="1">
+        <div class="cert-icon">AI</div>
+        <h3>Run AI Models with IBM Watson Studio</h3>
+        <div class="issuer">IBM SkillsBuild · MDL-219</div>
+        <span class="date">14 AUG 2025</span>
+        <img class="cert-img" src="images/cert-watson.png" alt="IBM SkillsBuild Run AI Models with IBM Watson Studio certificate">
+      </div>
+
+      <div class="cert-card" data-reveal data-delay="2">
+        <div class="cert-icon">ML</div>
+        <h3>Machine Learning and Deep Learning</h3>
+        <div class="issuer">IBM SkillsBuild · MDL-212</div>
+        <span class="date">13 AUG 2025</span>
+        <img class="cert-img" src="images/cert-mldl.png" alt="IBM SkillsBuild Machine Learning and Deep Learning certificate">
+      </div>
+
+      <div class="cert-card" data-reveal data-delay="3">
+        <div class="cert-icon">DS</div>
+        <h3>Data Science & Analytics</h3>
+        <div class="issuer">HP LIFE · HP Foundation</div>
+        <span class="date">14 AUG 2025</span>
+        <img class="cert-img" src="images/cert-hp.png" alt="HP LIFE Data Science and Analytics certificate">
+      </div>
+
+      <div class="cert-card" data-reveal data-delay="4">
+        <div class="cert-icon">UF</div>
+        <h3>Certificate of Recognition</h3>
+        <div class="issuer">University of Fort Hare, Faculty of Management & Commerce, for student representation</div>
+        <span class="date">2025</span>
+        <img class="cert-img" src="images/cert-ufh-final.png" alt="University of Fort Hare Certificate of Recognition">
+      </div>
+
+      <div class="cert-card" data-reveal data-delay="2">
+        <div class="cert-icon">FT</div>
+        <h3>UCT–Cortex Hub Fintech Lab 2026 Summer School</h3>
+        <div class="issuer">UCT Financial Innovation Hub × The Cortex Hub, an intensive 3-week programme in Open Banking, Open Finance & Fintech Innovation</div>
+        <span class="date">12–31 JAN 2026</span>
+        <img class="cert-img" src="images/cert-fintech.png" alt="UCT-Cortex Hub Fintech Lab certificate">
+      </div>
+
+      <div class="cert-card" data-reveal data-delay="1">
+        <div class="cert-icon">BM</div>
+        <h3>Business Model Canvas Workshop</h3>
+        <div class="issuer">Kore Business Solutions, Certificate of Attendance</div>
+        <span class="date">26 MAR 2026</span>
+        <img class="cert-img" src="images/cert-kore.png" alt="Kore Business Solutions Certificate of Attendance">
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">07</span><h2>Contact</h2></div>
+    <p class="sec-sub">Open to software engineering roles, internships, and collaborations. Reach out directly, I reply fast.</p>
+    <div class="contact-grid">
+      <a class="contact-card" href="mailto:siximbasimanye244@gmail.com">
+        <span class="clabel">Email</span>
+        <span class="cval">siximbasimanye244@gmail.com</span>
+      </a>
+      <a class="contact-card" href="tel:+27638152358">
+        <span class="clabel">Phone</span>
+        <span class="cval">063 815 2358</span>
+      </a>
+      <a class="contact-card" href="https://github.com/sima-rsa" target="_blank">
+        <span class="clabel">GitHub</span>
+        <span class="cval">github.com/sima-rsa</span>
+      </a>
+      <a class="contact-card" href="https://www.linkedin.com/in/simanye-siximba154542370" target="_blank">
+        <span class="clabel">LinkedIn</span>
+        <span class="cval">simanye-siximba</span>
+      </a>
+      <div class="contact-card">
+        <span class="clabel">Location</span>
+        <span class="cval">East London, South Africa</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  built by Simanye Siximba · © 2026
+</footer>
+
+<script>
+  const items = document.querySelectorAll('[data-reveal]');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+  },{threshold:0.15});
+  items.forEach(i=>io.observe(i));
+
+  // scroll progress bar
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', ()=>{
+    const h = document.documentElement;
+    const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progress.style.width = pct + '%';
+  });
+
+  // ambient mouse glow
+  document.addEventListener('mousemove', (e)=>{
+    document.documentElement.style.setProperty('--mx', e.clientX + 'px');
+    document.documentElement.style.setProperty('--my', e.clientY + 'px');
+  });
+</script>
+
+</body>
+</html>
